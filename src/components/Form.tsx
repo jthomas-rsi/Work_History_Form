@@ -6,13 +6,18 @@ import {
   CardHeader,
   Grid,
   IconButton,
+  Select,
   Stack,
   TextField,
+  TextFieldProps,
   Typography,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 /**
   TODO: Work History Form
    Done: 
@@ -43,47 +48,62 @@ const formInputs = [
   {
     disiplayName: "First Name:",
     type: "text",
+    value: undefined,
   },
   {
     disiplayName: "Last Name:",
     type: "text",
+    value: undefined,
   },
   {
     disiplayName: "Sex:",
     type: "select",
+    value: undefined,
+    choices: undefined, // create array of choices M F O
   },
   {
     disiplayName: "Age:",
-    type: "slider",
+    type: "select",
+    value: undefined, // create array of numbers from 0-100
   },
   {
     disiplayName: "Date Of birth:",
     type: "date",
+    value: undefined,
   },
   {
     disiplayName: "Street Address:",
     type: "text",
+    value: undefined,
   },
   {
     disiplayName: "City/State/Zip:",
     type: "text",
+    value: undefined,
   },
   {
     disiplayName: "Country:",
     type: "select",
+    value: undefined,
+    choices: undefined, // find list of countries
   },
   {
     disiplayName: "Phone:",
     type: "text",
+    value: undefined,
   },
   {
     disiplayName: "Email:",
     type: "text",
+    value: undefined,
   },
 ];
 
 const Form = () => {
   const [appInfo, setAppInfo] = useState<typeof formInputs>(formInputs);
+  const [dateOfBirth, setDateOfBirth] = useState<SetStateAction<Date> | null>(
+    null
+  );
   return (
     <>
       {
@@ -115,33 +135,79 @@ const Form = () => {
                   alignItems="center"
                   justifyContent="center"
                 >
-                  {/* <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    margin={1}
-                    textAlign="center"
-                  >
-                    <Typography variant="body2">
-                      {"ADD IN INPUT ELEMENTS HERE"}
-                    </Typography>
-                  </Grid> */}
-                  {appInfo.map((value, index) => {
-                    return (
-                      <Grid
-                        item
-                        key={index}
-                        xs={4}
-                        sm={4}
-                        md={4}
-                        margin={2}
-                        textAlign="center"
-                        alignItems="center"
-                      >
-                        <TextField label={value.disiplayName} />
-                      </Grid>
-                    );
+                  {appInfo.map((input, index) => {
+                    {
+                      /* {
+                      add in conditonal returns for types: date, select, text
+                    } */
+                    }
+                    if (input.type.toLowerCase() === "date") {
+                      return (
+                        <Grid
+                          item
+                          key={index}
+                          xs={12}
+                          sm={4}
+                          md={4}
+                          margin={2}
+                          textAlign="center"
+                          alignItems="center"
+                        >
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                              label={input.disiplayName}
+                              value={input.value}
+                              onChange={(newDate) => {
+                                if (newDate) {
+                                  setDateOfBirth(newDate);
+                                }
+                              }}
+                              renderInput={(
+                                params: JSX.IntrinsicAttributes & TextFieldProps
+                              ): JSX.Element => {
+                                return <TextField {...params} />;
+                              }}
+                            />
+                          </LocalizationProvider>
+                        </Grid>
+                      );
+                    }
+                    if (input.type.toLowerCase() === "text") {
+                      return (
+                        <Grid
+                          item
+                          key={index}
+                          xs={12}
+                          sm={4}
+                          md={4}
+                          margin={2}
+                          textAlign="center"
+                          alignItems="center"
+                        >
+                          <TextField label={input.disiplayName} />
+                        </Grid>
+                      );
+                    }
+                    if (input.type.toLowerCase() === "select") {
+                      return (
+                        <Grid
+                          item
+                          key={index}
+                          xs={12}
+                          sm={4}
+                          md={4}
+                          margin={2}
+                          textAlign="center"
+                          alignItems="center"
+                        >
+                          <Select
+                            label={input.disiplayName}
+                            value={input.value}
+                          ></Select>
+                        </Grid>
+                      );
+                    }
+                    // </Grid>
                   })}
                 </Grid>
                 <Stack

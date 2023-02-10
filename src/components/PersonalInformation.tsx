@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, Typography, Select, Slide } from "@mui/material";
+import { TextField, Typography, Select } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 /**
@@ -9,15 +9,23 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
     - intake list of input objects
     - return different data input based on object type key
 
-    input types: TextField, Select, Slider, Date
+    input types: TextField, Select, Date
  
  */
 
 interface PersonalInfoProps {
-  inputs: [string];
+  displayName: string;
+  type: string;
+  value: undefined | string;
+  choices?: [string];
 }
 
-const PersonalInfo = ({ inputs }: PersonalInfoProps) => {
+const PersonalInfo = ({
+  displayName,
+  type,
+  value,
+  choices,
+}: PersonalInfoProps) => {
   const [formInputs, setFormInputs] = useState();
 
   return <></>;
