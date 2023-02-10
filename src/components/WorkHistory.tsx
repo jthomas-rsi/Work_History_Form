@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
+import { useState } from "react";
 /**
   TODO: Work History Form
    Done: 
@@ -41,8 +42,20 @@ import SendIcon from "@mui/icons-material/Send";
    (7): reset app to Work History after data displayed onSubmit   
 
  */
+const formInputs = [
+  "First Name:",
+  "Last Name:",
+  "Sex:",
+  "Age:",
+  "Date Of birth:",
+  "Street Address:",
+  "City/State/Zip:",
+  "Phone:",
+  "Email:",
+];
 
 const WorkHistory = () => {
+  const [appInfo, setAppInfo] = useState<typeof formInputs>(formInputs);
   return (
     <>
       {
@@ -58,21 +71,50 @@ const WorkHistory = () => {
           <Card
             sx={{
               backgroundColor: "tan",
+              minWidth: "50%",
             }}
           >
             <form>
               <CardHeader title={"Form Title"} subheader={"Today's Date"} />
               <CardContent>
-                <Typography>{"Applicant Information"}</Typography>
+                <Typography variant="overline">
+                  {"Applicant Information"}
+                </Typography>
                 <Grid container border={1} mb={1}>
-                  <Grid item xs={12} sm={12} md={12}>
-                    {"ADD IN INPUT ELEMENTS HERE"}
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    margin={1}
+                    textAlign="center"
+                  >
+                    <Typography variant="body2">
+                      {"ADD IN INPUT ELEMENTS HERE"}
+                    </Typography>
                   </Grid>
                 </Grid>
-                <Typography>{"Work History"}</Typography>
+                <Stack
+                  direction={"row"}
+                  spacing={1}
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Typography variant="overline">{"Work History"}</Typography>
+                  <Button> Add Work Item</Button>
+                </Stack>
                 <Grid container border={1} mb={1}>
-                  <Grid item xs={12} sm={12} md={12}>
-                    {"ADD IN INPUT ELEMENTS HERE"}
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    margin={1}
+                    textAlign="center"
+                  >
+                    <Typography variant="body2">
+                      {"ADD IN INPUT ELEMENTS HERE"}
+                    </Typography>
                   </Grid>
                 </Grid>
               </CardContent>
