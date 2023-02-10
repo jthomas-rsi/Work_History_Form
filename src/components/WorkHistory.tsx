@@ -4,6 +4,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  Grid,
   IconButton,
   Stack,
   Typography,
@@ -62,10 +63,18 @@ const WorkHistory = () => {
             <form>
               <CardHeader title={"Form Title"} subheader={"Today's Date"} />
               <CardContent>
-                <Stack spacing={2} direction="column">
-                  <Box border={1}>{"Applicant Information"}</Box>
-                  <Box border={1}>{"Work History"}</Box>
-                </Stack>
+                <Typography>{"Applicant Information"}</Typography>
+                <Grid container border={1} mb={1}>
+                  <Grid item xs={12} sm={12} md={12}>
+                    {"ADD IN INPUT ELEMENTS HERE"}
+                  </Grid>
+                </Grid>
+                <Typography>{"Work History"}</Typography>
+                <Grid container border={1} mb={1}>
+                  <Grid item xs={12} sm={12} md={12}>
+                    {"ADD IN INPUT ELEMENTS HERE"}
+                  </Grid>
+                </Grid>
               </CardContent>
               <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <IconButton color="primary">
