@@ -4,55 +4,65 @@ const formInputs = [
   {
     displayName: "First Name:",
     type: "text",
-    value: undefined,
+    // value: undefined,
+    varTitle: "firstName",
   },
   {
     displayName: "Last Name:",
     type: "text",
     value: undefined,
+    varTitle: "lastName",
   },
   {
     displayName: "Gender:",
     type: "select",
-    value: undefined,
-    choices: ["Male", "Female", "Non-Binary", "Other"], // create array of choices M F O
+    choices: ["Male", "Female", "Non-Binary", "Other"],
+    // value: undefined,
+    varTitle: "gender",
   },
   {
     displayName: "Age:",
     type: "select",
-    value: undefined,
-    choices: Array.from(Array(100).keys()), // create array of numbers from 0-100
+    choices: Array.from(Array(100).keys()),
+    // value: undefined,
+    varTitle: "age",
   },
   {
     displayName: "Date Of birth:",
     type: "date",
-    value: undefined,
+    // value: undefined,
+    varTitle: "dateOfBirth",
   },
   {
     displayName: "Street Address:",
     type: "text",
-    value: undefined,
+    // value: undefined,
+    varTitle: "address",
   },
   {
     displayName: "City/State/Zip:",
     type: "text",
-    value: undefined,
+    // value: undefined,
+    varTitle: "cityStateZip",
   },
   {
     displayName: "Country:",
     type: "select",
-    value: undefined,
-    choices: countryList, // find list of countries
+    choices: countryList,
+    // value: undefined,
+    varTitle: "country",
   },
   {
     displayName: "Phone:",
     type: "text",
-    value: undefined,
+    // value: undefined,
+    varTitle: "phoneNumber",
   },
   {
     displayName: "Email:",
     type: "text",
-    value: undefined,
+    // value: undefined,
+    varTitle: "email",
   },
 ];
 

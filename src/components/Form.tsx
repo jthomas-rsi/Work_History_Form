@@ -53,17 +53,47 @@ import formInputs from "../data/formInputs";
 const ages = new Array(100);
 
 const Form = () => {
-  // Sets form initial inputs to render
-  const [appInfo, setAppInfo] = useState<typeof formInputs>(formInputs);
-
   // Form state variables to be captured on submit
+  const [formTitle, setFormTitle] = useState("Form Title");
+  const [formDate, setFormDate] = useState("Today's Date");
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [gender, setGender] = useState();
+  const [age, setAge] = useState(0);
   const [dateOfBirth, setDateOfBirth] = useState<SetStateAction<Date> | null>(
     null
   );
-  const [age, setAge] = useState(0);
-  const [sex, setSex] = useState("");
-  const [country, setCountry] = useState("");
+  const [address, setAddress] = useState();
+  const [cityStateZip, setCityStateZip] = useState();
+  const [country, setCountry] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [email, setEmail] = useState();
+  const [workHistory, setWorkHistory] = useState();
 
+  // array of form variables ot add into formInputs array of objects
+  const variables: any = [
+    firstName,
+    lastName,
+    gender,
+    age,
+    dateOfBirth,
+    address,
+    cityStateZip,
+    country,
+    phoneNumber,
+    email,
+  ];
+
+  const addedValues = formInputs.map((inputObject) => {
+    const value = variables[inputObject.varTitle];
+    return { ...inputObject, value };
+  });
+
+  console.log("inputs after loop", addedValues);
+
+  // Sets form initial inputs to render
+  const [appInfo, setAppInfo] = useState<typeof formInputs>(formInputs);
+  //create handle change functions for form submission
   return (
     <>
       {
@@ -83,7 +113,7 @@ const Form = () => {
             }}
           >
             <form>
-              <CardHeader title={"Form Title"} subheader={"Today's Date"} />
+              <CardHeader title={formTitle} subheader={formDate} />
               <CardContent>
                 <Typography variant="overline">
                   {"Applicant Information"}
@@ -116,7 +146,7 @@ const Form = () => {
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                               label={`${input.displayName}`}
-                              value={input.value}
+                              value={dateOfBirth}
                               onChange={(newDate) => {
                                 if (newDate) {
                                   setDateOfBirth(newDate);
