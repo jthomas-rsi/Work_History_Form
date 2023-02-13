@@ -4,9 +4,14 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  FormControl,
+  FormHelperText,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
   Select,
+  SelectChangeEvent,
   Stack,
   TextField,
   TextFieldProps,
@@ -18,6 +23,7 @@ import { SetStateAction, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import formInputs from "../data/formInputs";
 /**
   TODO: Work History Form
    Done: 
@@ -44,66 +50,20 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
    (8): create components to render specific application input elements for Applicant Information and Work History sections
 
  */
-const formInputs = [
-  {
-    disiplayName: "First Name:",
-    type: "text",
-    value: undefined,
-  },
-  {
-    disiplayName: "Last Name:",
-    type: "text",
-    value: undefined,
-  },
-  {
-    disiplayName: "Sex:",
-    type: "select",
-    value: undefined,
-    choices: undefined, // create array of choices M F O
-  },
-  {
-    disiplayName: "Age:",
-    type: "select",
-    value: undefined, // create array of numbers from 0-100
-  },
-  {
-    disiplayName: "Date Of birth:",
-    type: "date",
-    value: undefined,
-  },
-  {
-    disiplayName: "Street Address:",
-    type: "text",
-    value: undefined,
-  },
-  {
-    disiplayName: "City/State/Zip:",
-    type: "text",
-    value: undefined,
-  },
-  {
-    disiplayName: "Country:",
-    type: "select",
-    value: undefined,
-    choices: undefined, // find list of countries
-  },
-  {
-    disiplayName: "Phone:",
-    type: "text",
-    value: undefined,
-  },
-  {
-    disiplayName: "Email:",
-    type: "text",
-    value: undefined,
-  },
-];
+const ages = new Array(100);
 
 const Form = () => {
+  // Sets form initial inputs to render
   const [appInfo, setAppInfo] = useState<typeof formInputs>(formInputs);
+
+  // Form state variables to be captured on submit
   const [dateOfBirth, setDateOfBirth] = useState<SetStateAction<Date> | null>(
     null
   );
+  const [age, setAge] = useState(0);
+  const [sex, setSex] = useState("");
+  const [country, setCountry] = useState("");
+
   return (
     <>
       {
@@ -138,7 +98,7 @@ const Form = () => {
                   {appInfo.map((input, index) => {
                     {
                       /* {
-                      add in conditonal returns for types: date, select, text
+                      add in conditional returns for types: date, select, text
                     } */
                     }
                     if (input.type.toLowerCase() === "date") {
@@ -155,7 +115,7 @@ const Form = () => {
                         >
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
-                              label={input.disiplayName}
+                              label={`${input.displayName}`}
                               value={input.value}
                               onChange={(newDate) => {
                                 if (newDate) {
@@ -180,11 +140,11 @@ const Form = () => {
                           xs={12}
                           sm={4}
                           md={4}
-                          margin={2}
+                          margin={1}
                           textAlign="center"
                           alignItems="center"
                         >
-                          <TextField label={input.disiplayName} />
+                          <TextField label={input.displayName} />
                         </Grid>
                       );
                     }
@@ -200,14 +160,29 @@ const Form = () => {
                           textAlign="center"
                           alignItems="center"
                         >
-                          <Select
-                            label={input.disiplayName}
-                            value={input.value}
-                          ></Select>
+                          <FormControl sx={{ m: 1, minWidth: "50%" }}>
+                            <InputLabel id="select-label">
+                              {input.displayName}
+                            </InputLabel>
+                            <Select
+                              id={`select-input-${input.displayName}`}
+                              labelId="select-label"
+                              value={`${input.displayName}`}
+                              label={input.displayName}
+                              // onChange={}
+                            >
+                              {input.choices?.map((choice, index) => {
+                                return (
+                                  <MenuItem key={index} value={choice}>
+                                    {choice}
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
+                          </FormControl>
                         </Grid>
                       );
                     }
-                    // </Grid>
                   })}
                 </Grid>
                 <Stack
