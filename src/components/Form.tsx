@@ -17,11 +17,13 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
+import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import formInputs from "../data/formInputs";
+import { set } from "date-fns";
 /**
   TODO: Work History Form
    
@@ -69,10 +71,7 @@ const Form = () => {
     email: "",
   });
 
-  console.log("values", values);
-
-  //array to render work history components
-  const [workHistory, setWorkHistory] = useState([]);
+  // console.log("values", values); // values in applicant information updating correctly
 
   // onChange function to capture user input and update state object
   const handleChange = (eventValue: string, varTitle: string) => {
@@ -81,6 +80,38 @@ const Form = () => {
         ...prevState,
         [varTitle]: eventValue,
       };
+    });
+  };
+
+  //array to render work history components
+  const [workHistory, setWorkHistory] = useState([
+    {
+      companyName: "",
+      positionTitle: "",
+      startDate: "",
+      endDate: "",
+      positionDescription: "",
+      supervisorName: "",
+      supervisorContact: "",
+      contactApproval: "",
+    },
+  ]);
+
+  // function to add extra workHistory item to array
+  const handleAddHistory = () => {
+    const newHistoryItem = {
+      companyName: "test",
+      positionTitle: "test",
+      startDate: "test",
+      endDate: "test",
+      positionDescription: "test",
+      supervisorName: "test",
+      supervisorContact: "test",
+      contactApproval: "test",
+    };
+
+    setWorkHistory((prevState) => {
+      return [...prevState, newHistoryItem];
     });
   };
 
@@ -104,7 +135,7 @@ const Form = () => {
           <Card
             sx={{
               backgroundColor: "tan",
-              // minWidth: "50%",
+              maxWidth: "50%",
             }}
           >
             <form>
@@ -231,21 +262,44 @@ const Form = () => {
                   alignItems="center"
                 >
                   <Typography variant="overline">{"Work History"}</Typography>
-                  <Button> Add Work Item</Button>
+                  <IconButton
+                    color="primary"
+                    onClick={() => {
+                      console.log("button clicked");
+                    }}
+                  >
+                    <Typography variant="button">{"Add Item"}</Typography>
+                    <AddIcon />
+                  </IconButton>
                 </Stack>
                 <Grid container border={1} mb={1}>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    margin={1}
-                    textAlign="center"
-                  >
-                    <Typography variant="body2">
-                      {"ADD IN INPUT ELEMENTS HERE"}
-                    </Typography>
-                  </Grid>
+                  {workHistory.map((obj, index) => {
+                    return (
+                      <Grid
+                        item
+                        key={index}
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        margin={1}
+                        textAlign="center"
+                      >
+                        <Typography variant="body2">
+                          {"ADD IN INPUT ELEMENTS HERE"}
+                        </Typography>
+                        <div>
+                          {obj.companyName}
+                          {obj.positionTitle}
+                          {obj.positionDescription}
+                          {obj.startDate}
+                          {obj.endDate}
+                          {obj.supervisorName}
+                          {obj.supervisorContact}
+                          {obj.contactApproval}
+                        </div>
+                      </Grid>
+                    );
+                  })}
                 </Grid>
               </CardContent>
               <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
