@@ -1,3 +1,4 @@
+import HistoryInfo from "./HistoryInformation";
 import {
   Button,
   Card,
@@ -23,7 +24,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import formInputs from "../data/formInputs";
-import { set } from "date-fns";
+
 /**
   TODO: Work History Form
    
@@ -52,7 +53,6 @@ import { set } from "date-fns";
 
 
  */
-const ages = new Array(100);
 
 const Form = () => {
   //Single State object
@@ -116,7 +116,11 @@ const Form = () => {
     });
   };
 
-  // const handleSubmit = () => {}
+  // function to update workHistory array objects onChange
+  const handleHistoryChange = () => {};
+
+  // function to collect all form information on submit btn click
+  const handleSubmit = () => {};
 
   // Sets form initial inputs to render
   const [appInfo, setAppInfo] = useState<typeof formInputs>(formInputs);
@@ -280,12 +284,13 @@ const Form = () => {
                         item
                         key={index}
                         xs={12}
-                        sm={12}
-                        md={12}
+                        sm={3}
+                        md={3}
                         margin={1}
                         textAlign="center"
                       >
-                        <Typography variant="body2">
+                        <HistoryInfo {...obj} />
+                        {/* <Typography variant="body2">
                           {"ADD IN INPUT ELEMENTS HERE"}
                         </Typography>
                         <div>
@@ -297,7 +302,7 @@ const Form = () => {
                           {obj.supervisorName}
                           {obj.supervisorContact}
                           {obj.contactApproval}
-                        </div>
+                        </div> */}
                       </Grid>
                     );
                   })}
