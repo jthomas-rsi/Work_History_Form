@@ -55,24 +55,8 @@ import formInputs from "../data/formInputs";
 const ages = new Array(100);
 
 const Form = () => {
-  // Form state variables to be captured on submit
-  // const [formTitle, setFormTitle] = useState("Form Title");
-  // const [formDate, setFormDate] = useState("Today's Date");
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState();
-  // const [gender, setGender] = useState();
-  // const [age, setAge] = useState(0);
-  // const [dateOfBirth, setDateOfBirth] = useState<SetStateAction<Date> | null>(
-  //   null
-  // );
-  // const [address, setAddress] = useState();
-  // const [cityStateZip, setCityStateZip] = useState();
-  // const [country, setCountry] = useState();
-  // const [phoneNumber, setPhoneNumber] = useState();
-  // const [email, setEmail] = useState();
-
-  // Turn state values into one object
-  const [values, setValues] = useState({
+  //Single State object
+  const [values, setValues] = useState<{ [key: string]: string }>({
     formTitle: "Form Title",
     formDate: "Today's Date",
     firstName: "",
@@ -90,20 +74,18 @@ const Form = () => {
   //array to render work history components
   const [workHistory, setWorkHistory] = useState([]);
 
-  const handleDateChange = (event: string, varTitle: string) => {
+  // onChange function to capture user input and update state object
+  const handleChange = (eventValue: string, varTitle: string) => {
     setValues((prevState) => {
       // make new obj
       // varTitle === key, in newObject set value to event.target.value
       return {
         ...prevState,
-        [varTitle]: event,
+        [varTitle]: eventValue,
       };
     });
   };
 
-  // onChange functions
-  // const handleTextChange = () => {}
-  // const handleSelectChange = () => {}
   // const handleSubmit = () => {}
 
   // Sets form initial inputs to render
@@ -164,10 +146,10 @@ const Form = () => {
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                               label={`${input.displayName}`}
-                              value={values.dateOfBirth}
+                              value={values[input.varTitle]}
                               onChange={(event) => {
                                 if (event) {
-                                  handleDateChange(event, input.varTitle);
+                                  handleChange(event, input.varTitle);
                                 }
                               }}
                               renderInput={(
@@ -192,7 +174,13 @@ const Form = () => {
                           textAlign="center"
                           alignItems="center"
                         >
-                          <TextField label={input.displayName} />
+                          <TextField
+                            label={input.displayName}
+                            value={values[input.varTitle]}
+                            onChange={(event) => {
+                              handleChange(event.target.value, input.varTitle);
+                            }}
+                          />
                         </Grid>
                       );
                     }
@@ -208,16 +196,21 @@ const Form = () => {
                           textAlign="center"
                           alignItems="center"
                         >
-                          <FormControl sx={{ m: 1, minWidth: "50%" }}>
+                          <FormControl sx={{ m: 1, minWidth: "100%" }}>
                             <InputLabel id="select-label">
                               {input.displayName}
                             </InputLabel>
                             <Select
                               id={`select-input-${input.displayName}`}
                               labelId="select-label"
-                              value={`${input.displayName}`}
+                              value={values[input.varTitle]}
                               label={input.displayName}
-                              // onChange={}
+                              onChange={(event) => {
+                                handleChange(
+                                  event.target.value,
+                                  input.varTitle
+                                );
+                              }}
                             >
                               {input.choices?.map((choice, index) => {
                                 return (
