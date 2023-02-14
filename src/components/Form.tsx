@@ -33,27 +33,20 @@ import formInputs from "../data/formInputs";
    (9): create functions for each input type 
    ===> created a single onchange function that is reusable for all input elements 
    (6): display submitted information conditionally 
+   (3): include nested sections for specific information of form
 
   INPROGRESS:
-  (3): include nested sections for specific information of form
-   -> work history  
-     --> Company name
-     --> Job title 
-     --> Job description 
-     --> Start Date
-     --> End Date
-     --> Supervisor
-     --> Supervisor Contact information
-
+  (10): add functionality to add work item button, add new object to workHistory array
+  
   (8): create components to render specific application input elements for Applicant Information and Work History sections
      ==> Applicant Information conditional render of input types
-
-
-   
-   TODO:
+  
+  
+  TODO:
    (4): collect all form information    
    (5): submit form information 
    (7): reset app to Work History after data displayed onSubmit   
+   (11): add work entity onChange handler     
 
 
  */
