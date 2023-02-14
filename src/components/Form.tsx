@@ -5,13 +5,11 @@ import {
   CardContent,
   CardHeader,
   FormControl,
-  FormHelperText,
   Grid,
   IconButton,
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
   Stack,
   TextField,
   TextFieldProps,
@@ -19,36 +17,43 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
-import { ChangeEvent, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import formInputs from "../data/formInputs";
 /**
   TODO: Work History Form
-   Done: 
+   
+  Done: 
    (1): create a work history form 
     ==> basic form with content outline created
    (2): include basic information gathering section
    ==> basic applicant information has been inputted into component and rendered to screen as placeholders
+   (9): create functions for each input type 
+   ===> created a single onchange function that is reusable for all input elements 
+   (6): display submitted information conditionally 
+
+  INPROGRESS:
+  (3): include nested sections for specific information of form
+   -> work history  
+     --> Company name
+     --> Job title 
+     --> Job description 
+     --> Start Date
+     --> End Date
+     --> Supervisor
+     --> Supervisor Contact information
+
+  (8): create components to render specific application input elements for Applicant Information and Work History sections
+     ==> Applicant Information conditional render of input types
+
 
    
    TODO:
-   (3): include nested sections for specific information of form
-    -> work history  
-      --> Company name
-      --> Job title 
-      --> Job description 
-      --> Start Date
-      --> End Date
-      --> Supervisor
-      --> Supervisor Contact information
    (4): collect all form information    
    (5): submit form information 
-   (6): display submitted information conditionally 
    (7): reset app to Work History after data displayed onSubmit   
-   (8): create components to render specific application input elements for Applicant Information and Work History sections
-   (9): create functions for each input type 
 
 
  */
@@ -71,14 +76,14 @@ const Form = () => {
     email: "",
   });
 
+  console.log("values", values);
+
   //array to render work history components
   const [workHistory, setWorkHistory] = useState([]);
 
   // onChange function to capture user input and update state object
   const handleChange = (eventValue: string, varTitle: string) => {
     setValues((prevState) => {
-      // make new obj
-      // varTitle === key, in newObject set value to event.target.value
       return {
         ...prevState,
         [varTitle]: eventValue,
@@ -196,7 +201,7 @@ const Form = () => {
                           textAlign="center"
                           alignItems="center"
                         >
-                          <FormControl sx={{ m: 1, minWidth: "100%" }}>
+                          <FormControl sx={{ m: 1, minWidth: "50%" }}>
                             <InputLabel id="select-label">
                               {input.displayName}
                             </InputLabel>
