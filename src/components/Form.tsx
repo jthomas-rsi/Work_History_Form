@@ -86,20 +86,6 @@ const Form = () => {
   //array to render work history components
   const [workHistory, setWorkHistory] = useState([
     {
-      companyName: "",
-      positionTitle: "",
-      startDate: "",
-      endDate: "",
-      positionDescription: "",
-      supervisorName: "",
-      supervisorContact: "",
-      contactApproval: "",
-    },
-  ]);
-
-  // function to add extra workHistory item to array
-  const handleAddHistory = () => {
-    const newHistoryItem = {
       companyName: "test",
       positionTitle: "test",
       startDate: "test",
@@ -108,6 +94,21 @@ const Form = () => {
       supervisorName: "test",
       supervisorContact: "test",
       contactApproval: "test",
+    },
+  ]);
+
+  // function to add extra workHistory item to array
+  const handleAddHistory = () => {
+    console.log("Button Clicked new Function");
+    const newHistoryItem = {
+      companyName: "add your info",
+      positionTitle: "",
+      startDate: "",
+      endDate: "",
+      positionDescription: "",
+      supervisorName: "",
+      supervisorContact: "",
+      contactApproval: "",
     };
 
     setWorkHistory((prevState) => {
@@ -265,7 +266,7 @@ const Form = () => {
                   <IconButton
                     color="primary"
                     onClick={() => {
-                      console.log("button clicked");
+                      handleAddHistory();
                     }}
                   >
                     <Typography variant="button">{"Add Item"}</Typography>

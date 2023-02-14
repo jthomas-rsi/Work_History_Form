@@ -7,7 +7,8 @@
 
 
  TODO:
- - create card header to display work Item + index number 
+ - create card header to display work Item + index number
+ - set up component to render passed props  
   
  
  */
@@ -64,7 +65,7 @@ const HistoryInfo = () => {
           }}
         />
       </LocalizationProvider>
-      <TextField label="Multiline" multiline rows={4} />
+      <TextField label="Position Description" multiline rows={4} />
       <TextField label="Supervisor's name:" />
       <TextField label="Supervisor's phone/email" />
       <FormControlLabel
