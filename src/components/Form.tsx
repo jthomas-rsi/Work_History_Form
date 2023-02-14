@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
-import { SetStateAction, useState } from "react";
+import { ChangeEvent, SetStateAction, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -48,48 +48,63 @@ import formInputs from "../data/formInputs";
    (6): display submitted information conditionally 
    (7): reset app to Work History after data displayed onSubmit   
    (8): create components to render specific application input elements for Applicant Information and Work History sections
+   (9): create functions for each input type 
+
 
  */
 const ages = new Array(100);
 
 const Form = () => {
   // Form state variables to be captured on submit
-  const [formTitle, setFormTitle] = useState("Form Title");
-  const [formDate, setFormDate] = useState("Today's Date");
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [gender, setGender] = useState();
-  const [age, setAge] = useState(0);
-  const [dateOfBirth, setDateOfBirth] = useState<SetStateAction<Date> | null>(
-    null
-  );
-  const [address, setAddress] = useState();
-  const [cityStateZip, setCityStateZip] = useState();
-  const [country, setCountry] = useState();
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [email, setEmail] = useState();
-  const [workHistory, setWorkHistory] = useState();
+  // const [formTitle, setFormTitle] = useState("Form Title");
+  // const [formDate, setFormDate] = useState("Today's Date");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState();
+  // const [gender, setGender] = useState();
+  // const [age, setAge] = useState(0);
+  // const [dateOfBirth, setDateOfBirth] = useState<SetStateAction<Date> | null>(
+  //   null
+  // );
+  // const [address, setAddress] = useState();
+  // const [cityStateZip, setCityStateZip] = useState();
+  // const [country, setCountry] = useState();
+  // const [phoneNumber, setPhoneNumber] = useState();
+  // const [email, setEmail] = useState();
 
-  // array of form variables ot add into formInputs array of objects
-  const variables: any = [
-    firstName,
-    lastName,
-    gender,
-    age,
-    dateOfBirth,
-    address,
-    cityStateZip,
-    country,
-    phoneNumber,
-    email,
-  ];
-
-  const addedValues = formInputs.map((inputObject) => {
-    const value = variables[inputObject.varTitle];
-    return { ...inputObject, value };
+  // Turn state values into one object
+  const [values, setValues] = useState({
+    formTitle: "Form Title",
+    formDate: "Today's Date",
+    firstName: "",
+    lastName: "",
+    gender: "",
+    age: "",
+    dateOfBirth: "",
+    address: "",
+    cityStateZip: "",
+    country: "",
+    phoneNumber: "",
+    email: "",
   });
 
-  console.log("inputs after loop", addedValues);
+  //array to render work history components
+  const [workHistory, setWorkHistory] = useState([]);
+
+  const handleDateChange = (event: string, varTitle: string) => {
+    setValues((prevState) => {
+      // make new obj
+      // varTitle === key, in newObject set value to event.target.value
+      return {
+        ...prevState,
+        [varTitle]: event,
+      };
+    });
+  };
+
+  // onChange functions
+  // const handleTextChange = () => {}
+  // const handleSelectChange = () => {}
+  // const handleSubmit = () => {}
 
   // Sets form initial inputs to render
   const [appInfo, setAppInfo] = useState<typeof formInputs>(formInputs);
@@ -109,11 +124,14 @@ const Form = () => {
           <Card
             sx={{
               backgroundColor: "tan",
-              minWidth: "50%",
+              // minWidth: "50%",
             }}
           >
             <form>
-              <CardHeader title={formTitle} subheader={formDate} />
+              <CardHeader
+                title={values.formTitle}
+                subheader={values.formDate}
+              />
               <CardContent>
                 <Typography variant="overline">
                   {"Applicant Information"}
@@ -128,7 +146,7 @@ const Form = () => {
                   {appInfo.map((input, index) => {
                     {
                       /* {
-                      add in conditional returns for types: date, select, text
+                      conditional returns for input types: date, select, text
                     } */
                     }
                     if (input.type.toLowerCase() === "date") {
@@ -146,10 +164,10 @@ const Form = () => {
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                               label={`${input.displayName}`}
-                              value={dateOfBirth}
-                              onChange={(newDate) => {
-                                if (newDate) {
-                                  setDateOfBirth(newDate);
+                              value={values.dateOfBirth}
+                              onChange={(event) => {
+                                if (event) {
+                                  handleDateChange(event, input.varTitle);
                                 }
                               }}
                               renderInput={(

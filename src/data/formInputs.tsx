@@ -6,6 +6,7 @@ const formInputs = [
     type: "text",
     // value: undefined,
     varTitle: "firstName",
+    // func:
   },
   {
     displayName: "Last Name:",
@@ -23,7 +24,7 @@ const formInputs = [
   {
     displayName: "Age:",
     type: "select",
-    choices: Array.from(Array(100).keys()),
+    choices: Array.from(Array(99).keys()),
     // value: undefined,
     varTitle: "age",
   },
