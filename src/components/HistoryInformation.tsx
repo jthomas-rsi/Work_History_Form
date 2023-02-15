@@ -67,16 +67,14 @@ const HistoryInfo = ({
   console.log("cardIndex", cardIndex);
   return (
     <Card sx={{ backgroundColor: "tan" }}>
-      {cardIndex > 0 && (
-        <IconButton
-          color="primary"
-          onClick={() => {
-            removeObject(cardIndex);
-          }}
-        >
-          <DeleteForeverIcon color="error" />
-        </IconButton>
-      )}
+      <IconButton
+        onClick={() => {
+          removeObject(cardIndex);
+        }}
+        disabled={cardIndex > 0 ? false : true}
+      >
+        <DeleteForeverIcon color={cardIndex > 0 ? "error" : "disabled"} />
+      </IconButton>
       <CardContent>
         <Stack spacing={1}>
           <TextField label="Company name:" value={companyName} />
@@ -122,7 +120,6 @@ const HistoryInfo = ({
           />
         </Stack>
       </CardContent>
-      <CardActions></CardActions>
     </Card>
   );
 };
