@@ -71,18 +71,6 @@ const Form = () => {
     email: "",
   });
 
-  // console.log("values", values); // values in applicant information updating correctly
-
-  // onChange function to capture user input and update state object
-  const handleChange = (eventValue: string, varTitle: string) => {
-    setValues((prevState) => {
-      return {
-        ...prevState,
-        [varTitle]: eventValue,
-      };
-    });
-  };
-
   //array to render work history components
   const [workHistory, setWorkHistory] = useState([
     {
@@ -97,9 +85,21 @@ const Form = () => {
     },
   ]);
 
+  // console.log("values", values); // values in applicant information updating correctly
+
+  // onChange function to capture user input and update state object
+  const handleChange = (eventValue: string, varTitle: string) => {
+    setValues((prevState) => {
+      return {
+        ...prevState,
+        [varTitle]: eventValue,
+      };
+    });
+  };
+
   // function to add extra workHistory item to array
   const handleAddHistory = () => {
-    console.log("Button Clicked new Function");
+    // console.log("Button Clicked new Function");
     const newHistoryItem = {
       companyName: "add your info",
       positionTitle: "",
@@ -118,6 +118,17 @@ const Form = () => {
 
   // function to update workHistory array objects onChange
   const handleHistoryChange = () => {};
+
+  // function to remove work history object from array using index
+  const removeHistoryObject = (objIndex: Number) => {
+    //filter work history array by inputted index
+    const newHistoryList = workHistory.filter((obj, index) => {
+      return index !== objIndex;
+    });
+
+    // set new array to be rendered
+    setWorkHistory(newHistoryList);
+  };
 
   // function to collect all form information on submit btn click
   const handleSubmit = () => {};
@@ -289,20 +300,11 @@ const Form = () => {
                         margin={1}
                         textAlign="center"
                       >
-                        <HistoryInfo {...obj} />
-                        {/* <Typography variant="body2">
-                          {"ADD IN INPUT ELEMENTS HERE"}
-                        </Typography>
-                        <div>
-                          {obj.companyName}
-                          {obj.positionTitle}
-                          {obj.positionDescription}
-                          {obj.startDate}
-                          {obj.endDate}
-                          {obj.supervisorName}
-                          {obj.supervisorContact}
-                          {obj.contactApproval}
-                        </div> */}
+                        <HistoryInfo
+                          {...obj}
+                          cardIndex={index}
+                          removeObject={removeHistoryObject}
+                        />
                       </Grid>
                     );
                   })}

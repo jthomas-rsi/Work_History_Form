@@ -20,6 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 /**
  Component Action: This application will create a composite of inputs for applicant to fill out there work history
@@ -32,7 +33,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
  TODO:
  - create card header to display work Item + index number
  - set up component to render passed props  
-  
+ - add btn and function to erase a work history object 
  
  */
 
@@ -46,9 +47,12 @@ interface HistoryInfoProps {
   supervisorContact: string;
   contactApproval: string;
   onChange?: Function;
+  removeObject: Function;
+  cardIndex: number;
 }
 
 const HistoryInfo = ({
+  cardIndex,
   companyName,
   positionTitle,
   startDate,
@@ -57,10 +61,22 @@ const HistoryInfo = ({
   supervisorName,
   supervisorContact,
   contactApproval,
+  removeObject,
   onChange,
 }: HistoryInfoProps) => {
+  console.log("cardIndex", cardIndex);
   return (
     <Card sx={{ backgroundColor: "tan" }}>
+      {cardIndex > 0 && (
+        <IconButton
+          color="primary"
+          onClick={() => {
+            removeObject(cardIndex);
+          }}
+        >
+          <DeleteForeverIcon color="error" />
+        </IconButton>
+      )}
       <CardContent>
         <Stack spacing={1}>
           <TextField label="Company name:" value={companyName} />
@@ -106,6 +122,7 @@ const HistoryInfo = ({
           />
         </Stack>
       </CardContent>
+      <CardActions></CardActions>
     </Card>
   );
 };
