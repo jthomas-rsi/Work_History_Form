@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { WorkHistoryObject } from "./Form";
 
 /**
  Component Action: This application will create a composite of inputs for applicant to fill out there work history
@@ -46,7 +47,7 @@ interface HistoryInfoProps {
   supervisorName: string;
   supervisorContact: string;
   contactApproval: string;
-  onChange?: Function;
+  onChange: Function;
   removeObject: Function;
   cardIndex: number;
 }
@@ -64,7 +65,7 @@ const HistoryInfo = ({
   removeObject,
   onChange,
 }: HistoryInfoProps) => {
-  console.log("cardIndex", cardIndex);
+  // console.log("cardIndex", cardIndex);
   return (
     <Card sx={{ backgroundColor: "tan" }}>
       <IconButton
@@ -77,13 +78,27 @@ const HistoryInfo = ({
       </IconButton>
       <CardContent>
         <Stack spacing={1}>
-          <TextField label="Company name:" value={companyName} />
-          <TextField label="Former Position/Title:" value={positionTitle} />
+          <TextField
+            label="Company name:"
+            value={companyName}
+            onChange={(event) => {
+              onChange(event.target.value, cardIndex, "companyName");
+            }}
+          />
+          <TextField
+            label="Former Position/Title:"
+            value={positionTitle}
+            onChange={(event) => {
+              onChange(event.target.value, cardIndex, "positionTitle");
+            }}
+          />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label={"Start Date"}
               value={startDate}
-              onChange={() => {}}
+              onChange={(event) => {
+                onChange(event, cardIndex, "startDate");
+              }}
               renderInput={(
                 params: JSX.IntrinsicAttributes & TextFieldProps
               ): JSX.Element => {
@@ -95,7 +110,9 @@ const HistoryInfo = ({
             <DatePicker
               label={"End Date"}
               value={endDate}
-              onChange={() => {}}
+              onChange={(event) => {
+                onChange(event, cardIndex, "endDate");
+              }}
               renderInput={(
                 params: JSX.IntrinsicAttributes & TextFieldProps
               ): JSX.Element => {
@@ -108,11 +125,24 @@ const HistoryInfo = ({
             multiline
             rows={4}
             value={positionDescription}
+            onChange={(event) => {
+              onChange(event.target.value, cardIndex, "positionDescription");
+            }}
           />
-          <TextField label="Supervisor's name:" value={supervisorName} />
+          <TextField
+            label="Supervisor's name:"
+            value={supervisorName}
+            onChange={(event) => {
+              onChange(event.target.value, cardIndex, "supervisorName");
+            }}
+          />
+
           <TextField
             label="Supervisor's phone/email"
             value={supervisorContact}
+            onChange={(event) => {
+              onChange(event.target.value, cardIndex, "supervisorContact");
+            }}
           />
           <FormControlLabel
             control={<Checkbox color="success" value={contactApproval} />}

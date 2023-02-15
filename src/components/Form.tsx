@@ -54,6 +54,18 @@ import formInputs from "../data/formInputs";
 
  */
 
+export interface WorkHistoryObject {
+  [key: string]: string;
+  companyName: string;
+  positionTitle: string;
+  startDate: string;
+  endDate: string;
+  positionDescription: string;
+  supervisorName: string;
+  supervisorContact: string;
+  contactApproval: string;
+}
+
 const Form = () => {
   //Single State object
   const [values, setValues] = useState<{ [key: string]: string }>({
@@ -74,14 +86,14 @@ const Form = () => {
   //array to render work history components
   const [workHistory, setWorkHistory] = useState([
     {
-      companyName: "test",
-      positionTitle: "test",
-      startDate: "test",
-      endDate: "test",
-      positionDescription: "test",
-      supervisorName: "test",
-      supervisorContact: "test",
-      contactApproval: "test",
+      companyName: "",
+      positionTitle: "",
+      startDate: "",
+      endDate: "",
+      positionDescription: "",
+      supervisorName: "",
+      supervisorContact: "",
+      contactApproval: "",
     },
   ]);
 
@@ -100,7 +112,7 @@ const Form = () => {
   // function to add extra workHistory item to array
   const handleAddHistory = () => {
     // console.log("Button Clicked new Function");
-    const newHistoryItem = {
+    const newHistoryItem: WorkHistoryObject = {
       companyName: "add your info",
       positionTitle: "",
       startDate: "",
@@ -110,14 +122,37 @@ const Form = () => {
       supervisorContact: "",
       contactApproval: "",
     };
-
     setWorkHistory((prevState) => {
       return [...prevState, newHistoryItem];
     });
   };
 
   // function to update workHistory array objects onChange
-  const handleHistoryChange = () => {};
+  const handleHistoryChange = (
+    eventValue: string,
+    objIndex: number,
+    keyString: string
+  ) => {
+    //log inputted values
+    console.log("Changing WorkHistory Input ", eventValue, objIndex, keyString);
+
+    // make new array by copying current workHistory array
+    const newArray = [...workHistory];
+
+    // target to copy object in new array
+    const newObject: WorkHistoryObject = newArray[objIndex];
+
+    // console.log("before update", newArray[objIndex]);
+    //update new object copy with event value
+    newObject[keyString] = eventValue;
+
+    // update array with new object
+    newArray[objIndex] = newObject;
+    // console.log("after update", newArray[objIndex]);
+
+    //set state with new update array
+    setWorkHistory(newArray);
+  };
 
   // function to remove work history object from array using index
   const removeHistoryObject = (objIndex: Number) => {
@@ -304,6 +339,7 @@ const Form = () => {
                           {...obj}
                           cardIndex={index}
                           removeObject={removeHistoryObject}
+                          onChange={handleHistoryChange}
                         />
                       </Grid>
                     );
