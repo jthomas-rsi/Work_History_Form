@@ -1,41 +1,22 @@
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import {
-  Button,
   Card,
-  CardActions,
   CardContent,
-  CardHeader,
   Checkbox,
-  FormControl,
   FormControlLabel,
-  FormGroup,
-  Grid,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   Stack,
   TextField,
   TextFieldProps,
-  Typography,
 } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { WorkHistoryObject } from "./Form";
 
 /**
- Component Action: This application will create a composite of inputs for applicant to fill out there work history
- 
- Done:
- - Create Card 
- - Create layout for user work history information 
+ Component Action: 
+ This application will create a composite of inputs for applicant to fill 
+ out their work history
 
-
- TODO:
- - create card header to display work Item + index number
- - set up component to render passed props  
- - add btn and function to erase a work history object 
- 
  */
 
 interface HistoryInfoProps {
@@ -65,7 +46,6 @@ const HistoryInfo = ({
   removeObject,
   onChange,
 }: HistoryInfoProps) => {
-  // console.log("cardIndex", cardIndex);
   return (
     <Card sx={{ backgroundColor: "tan" }}>
       <IconButton

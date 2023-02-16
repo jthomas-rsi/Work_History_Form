@@ -19,11 +19,12 @@ import {
 import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
 import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import formInputs from "../data/formInputs";
+import { ValuesObject, WorkHistoryObject, FormData } from "../types/types";
 
 /**
   TODO: Work History Form
@@ -35,42 +36,34 @@ import formInputs from "../data/formInputs";
    ==> basic applicant information has been inputted into component and rendered to screen as placeholders
    (9): create functions for each input type 
    ===> created a single onchange function that is reusable for all input elements 
-   (6): display submitted information conditionally 
    (3): include nested sections for specific information of form
+   (10): add functionality to add work item button, add new object to workHistory array
+   (11): add work entity onChange handler     
+   (8): create components to render specific application input elements for Applicant Information and Work History sections
+      ==> Applicant Information conditional render of input types
 
   INPROGRESS:
-  (10): add functionality to add work item button, add new object to workHistory array
-  
-  (8): create components to render specific application input elements for Applicant Information and Work History sections
-     ==> Applicant Information conditional render of input types
+  (4): collect all form information    
+  (5): submit form information 
   
   
   TODO:
-   (4): collect all form information    
-   (5): submit form information 
    (7): reset app to Work History after data displayed onSubmit   
-   (11): add work entity onChange handler     
 
 
  */
 
-export interface WorkHistoryObject {
-  [key: string]: string;
-  companyName: string;
-  positionTitle: string;
-  startDate: string;
-  endDate: string;
-  positionDescription: string;
-  supervisorName: string;
-  supervisorContact: string;
-  contactApproval: string;
-}
-
 const Form = () => {
+  const [show, setShow] = useState<boolean>(false);
+  const [submittedData, setSubmittedData] = useState<FormData>();
+
+  // Sets form initial inputs to render
+  const [appInfo, setAppInfo] = useState<typeof formInputs>(formInputs);
+
   //Single State object
-  const [values, setValues] = useState<{ [key: string]: string }>({
+  const [values, setValues] = useState<ValuesObject>({
     formTitle: "Form Title",
-    formDate: "Today's Date",
+    formDate: new Date().toDateString(),
     firstName: "",
     lastName: "",
     gender: "",
@@ -97,8 +90,6 @@ const Form = () => {
     },
   ]);
 
-  // console.log("values", values); // values in applicant information updating correctly
-
   // onChange function to capture user input and update state object
   const handleChange = (eventValue: string, varTitle: string) => {
     setValues((prevState) => {
@@ -111,7 +102,6 @@ const Form = () => {
 
   // function to add extra workHistory item to array
   const handleAddHistory = () => {
-    // console.log("Button Clicked new Function");
     const newHistoryItem: WorkHistoryObject = {
       companyName: "add your info",
       positionTitle: "",
@@ -133,23 +123,14 @@ const Form = () => {
     objIndex: number,
     keyString: string
   ) => {
-    //log inputted values
-    console.log("Changing WorkHistory Input ", eventValue, objIndex, keyString);
-
     // make new array by copying current workHistory array
     const newArray = [...workHistory];
-
-    // target to copy object in new array
+    // target and copy object in new array
     const newObject: WorkHistoryObject = newArray[objIndex];
-
-    // console.log("before update", newArray[objIndex]);
     //update new object copy with event value
     newObject[keyString] = eventValue;
-
     // update array with new object
     newArray[objIndex] = newObject;
-    // console.log("after update", newArray[objIndex]);
-
     //set state with new update array
     setWorkHistory(newArray);
   };
@@ -166,11 +147,62 @@ const Form = () => {
   };
 
   // function to collect all form information on submit btn click
-  const handleSubmit = () => {};
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Collect all inputted information from state
+    const formData: FormData = {
+      formValues: values,
+      historyArray: workHistory,
+    };
+    // console.log("Event object", e.target[0].value);
 
-  // Sets form initial inputs to render
-  const [appInfo, setAppInfo] = useState<typeof formInputs>(formInputs);
-  //create handle change functions for form submission
+    // set form data to state
+    setSubmittedData(formData);
+
+    console.log("submitted data in function ", submittedData);
+
+    //reset all form state values
+    setValues({
+      formTitle: "Form Title",
+      formDate: new Date().toDateString(),
+      firstName: " ",
+      lastName: " ",
+      gender: " ",
+      age: " ",
+      dateOfBirth: " ",
+      address: " ",
+      cityStateZip: " ",
+      country: " ",
+      phoneNumber: " ",
+      email: " ",
+    });
+
+    // reset workHistory array
+    setWorkHistory([
+      {
+        companyName: " ",
+        positionTitle: " ",
+        startDate: " ",
+        endDate: " ",
+        positionDescription: " ",
+        supervisorName: " ",
+        supervisorContact: " ",
+        contactApproval: " ",
+      },
+    ]);
+
+    // console.log("formdata", formData);
+
+    setShow(true);
+  };
+
+  // console.log("submitted data outside of function", submittedData);
+
+  const handleClose = () => {
+    setShow(false);
+    setSubmittedData(undefined);
+  };
+
   return (
     <>
       {
@@ -183,177 +215,197 @@ const Form = () => {
             justifyContent: "center",
           }}
         >
-          <Card
-            sx={{
-              backgroundColor: "tan",
-              maxWidth: "50%",
-            }}
-          >
-            <form>
-              <CardHeader
-                title={values.formTitle}
-                subheader={values.formDate}
-              />
-              <CardContent>
-                <Typography variant="overline">
-                  {"Applicant Information"}
-                </Typography>
-                <Grid
-                  container
-                  border={1}
-                  mb={1}
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  {appInfo.map((input, index) => {
-                    {
-                      /* {
+          {!show && (
+            <Card
+              sx={{
+                backgroundColor: "tan",
+                maxWidth: "50%",
+              }}
+            >
+              <form onSubmit={(e) => handleSubmit(e)}>
+                <CardHeader
+                  title={values.formTitle}
+                  subheader={values.formDate}
+                />
+                <CardContent>
+                  <Typography variant="overline">
+                    {"Applicant Information"}
+                  </Typography>
+                  <Grid
+                    container
+                    border={1}
+                    mb={1}
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    {appInfo.map((input, index) => {
+                      {
+                        /* {
                       conditional returns for input types: date, select, text
                     } */
-                    }
-                    if (input.type.toLowerCase() === "date") {
-                      return (
-                        <Grid
-                          item
-                          key={index}
-                          xs={12}
-                          sm={4}
-                          md={4}
-                          margin={2}
-                          textAlign="center"
-                          alignItems="center"
-                        >
-                          <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
-                              label={`${input.displayName}`}
-                              value={values[input.varTitle]}
-                              onChange={(event) => {
-                                if (event) {
-                                  handleChange(event, input.varTitle);
-                                }
-                              }}
-                              renderInput={(
-                                params: JSX.IntrinsicAttributes & TextFieldProps
-                              ): JSX.Element => {
-                                return <TextField {...params} />;
-                              }}
-                            />
-                          </LocalizationProvider>
-                        </Grid>
-                      );
-                    }
-                    if (input.type.toLowerCase() === "text") {
-                      return (
-                        <Grid
-                          item
-                          key={index}
-                          xs={12}
-                          sm={4}
-                          md={4}
-                          margin={1}
-                          textAlign="center"
-                          alignItems="center"
-                        >
-                          <TextField
-                            label={input.displayName}
-                            value={values[input.varTitle]}
-                            onChange={(event) => {
-                              handleChange(event.target.value, input.varTitle);
-                            }}
-                          />
-                        </Grid>
-                      );
-                    }
-                    if (input.type.toLowerCase() === "select") {
-                      return (
-                        <Grid
-                          item
-                          key={index}
-                          xs={12}
-                          sm={4}
-                          md={4}
-                          margin={2}
-                          textAlign="center"
-                          alignItems="center"
-                        >
-                          <FormControl sx={{ m: 1, minWidth: "50%" }}>
-                            <InputLabel id="select-label">
-                              {input.displayName}
-                            </InputLabel>
-                            <Select
-                              id={`select-input-${input.displayName}`}
-                              labelId="select-label"
-                              value={values[input.varTitle]}
+                      }
+                      if (input.type.toLowerCase() === "date") {
+                        return (
+                          <Grid
+                            item
+                            key={index}
+                            xs={12}
+                            sm={4}
+                            md={4}
+                            margin={2}
+                            textAlign="center"
+                            alignItems="center"
+                          >
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                              <DatePicker
+                                label={`${input.displayName}`}
+                                value={values[input.varTitle]}
+                                onChange={(event) => {
+                                  if (event) {
+                                    handleChange(event, input.varTitle);
+                                  }
+                                }}
+                                renderInput={(
+                                  params: JSX.IntrinsicAttributes &
+                                    TextFieldProps
+                                ): JSX.Element => {
+                                  return <TextField {...params} />;
+                                }}
+                              />
+                            </LocalizationProvider>
+                          </Grid>
+                        );
+                      }
+                      if (input.type.toLowerCase() === "text") {
+                        return (
+                          <Grid
+                            item
+                            key={index}
+                            xs={12}
+                            sm={4}
+                            md={4}
+                            margin={1}
+                            textAlign="center"
+                            alignItems="center"
+                          >
+                            <TextField
                               label={input.displayName}
+                              value={values[input.varTitle]}
                               onChange={(event) => {
                                 handleChange(
                                   event.target.value,
                                   input.varTitle
                                 );
                               }}
-                            >
-                              {input.choices?.map((choice, index) => {
-                                return (
-                                  <MenuItem key={index} value={choice}>
-                                    {choice}
-                                  </MenuItem>
-                                );
-                              })}
-                            </Select>
-                          </FormControl>
+                            />
+                          </Grid>
+                        );
+                      }
+                      if (input.type.toLowerCase() === "select") {
+                        return (
+                          <Grid
+                            item
+                            key={index}
+                            xs={12}
+                            sm={4}
+                            md={4}
+                            margin={2}
+                            textAlign="center"
+                            alignItems="center"
+                          >
+                            <FormControl sx={{ m: 1, minWidth: "50%" }}>
+                              <InputLabel id="select-label">
+                                {input.displayName}
+                              </InputLabel>
+                              <Select
+                                id={`select-input-${input.displayName}`}
+                                labelId="select-label"
+                                value={values[input.varTitle]}
+                                label={input.displayName}
+                                onChange={(event) => {
+                                  handleChange(
+                                    event.target.value,
+                                    input.varTitle
+                                  );
+                                }}
+                              >
+                                {input.choices?.map((choice, index) => {
+                                  return (
+                                    <MenuItem key={index} value={choice}>
+                                      {choice}
+                                    </MenuItem>
+                                  );
+                                })}
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                        );
+                      }
+                    })}
+                  </Grid>
+                  <Stack
+                    direction={"row"}
+                    spacing={1}
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Typography variant="overline">{"Work History"}</Typography>
+                    <IconButton
+                      color="primary"
+                      onClick={() => {
+                        handleAddHistory();
+                      }}
+                    >
+                      <Typography variant="button">{"Add Item"}</Typography>
+                      <AddIcon />
+                    </IconButton>
+                  </Stack>
+                  <Grid container border={1} mb={1}>
+                    {workHistory.map((obj, index) => {
+                      return (
+                        <Grid
+                          item
+                          key={index}
+                          xs={12}
+                          sm={3}
+                          md={3}
+                          margin={1}
+                          textAlign="center"
+                        >
+                          <HistoryInfo
+                            {...obj}
+                            cardIndex={index}
+                            removeObject={removeHistoryObject}
+                            onChange={handleHistoryChange}
+                          />
                         </Grid>
                       );
-                    }
-                  })}
-                </Grid>
-                <Stack
-                  direction={"row"}
-                  spacing={1}
-                  justifyContent="space-between"
-                  alignItems="center"
+                    })}
+                  </Grid>
+                </CardContent>
+                <CardActions
+                  sx={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  <Typography variant="overline">{"Work History"}</Typography>
-                  <IconButton
-                    color="primary"
-                    onClick={() => {
-                      handleAddHistory();
-                    }}
-                  >
-                    <Typography variant="button">{"Add Item"}</Typography>
-                    <AddIcon />
+                  <IconButton color="primary" type="submit">
+                    <Typography variant="button">{"Submit"}</Typography>
+                    <SendIcon />
                   </IconButton>
-                </Stack>
-                <Grid container border={1} mb={1}>
-                  {workHistory.map((obj, index) => {
-                    return (
-                      <Grid
-                        item
-                        key={index}
-                        xs={12}
-                        sm={3}
-                        md={3}
-                        margin={1}
-                        textAlign="center"
-                      >
-                        <HistoryInfo
-                          {...obj}
-                          cardIndex={index}
-                          removeObject={removeHistoryObject}
-                          onChange={handleHistoryChange}
-                        />
-                      </Grid>
-                    );
-                  })}
-                </Grid>
-              </CardContent>
-              <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
-                <IconButton color="primary">
-                  <Typography variant="button">{"Submit"}</Typography>
-                  <SendIcon />
-                </IconButton>
-              </CardActions>
-            </form>
-          </Card>
+                </CardActions>
+              </form>
+            </Card>
+          )}
+          {show && (
+            <Stack>
+              {submittedData?.formValues.formTitle}
+              <br />
+              {submittedData?.formValues.firstName}
+              <br />
+              {submittedData?.formValues.lastName}
+              <br />
+              {/* {submittedData.historyArray} */}
+              <Button onClick={() => handleClose()}>Close</Button>
+            </Stack>
+          )}
         </Box>
       }
     </>
