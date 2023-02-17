@@ -25,6 +25,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import formInputs from "../data/formInputs";
 import { ValuesObject, WorkHistoryObject, FormData } from "../types/types";
+import DataDisplay from "./DataDisplay";
 
 /**
   TODO: Work History Form
@@ -41,14 +42,15 @@ import { ValuesObject, WorkHistoryObject, FormData } from "../types/types";
    (11): add work entity onChange handler     
    (8): create components to render specific application input elements for Applicant Information and Work History sections
       ==> Applicant Information conditional render of input types
+      (4): collect all form information    
+      (5): submit form information 
+      (7): reset app to Work History after data displayed onSubmit   
 
   INPROGRESS:
-  (4): collect all form information    
-  (5): submit form information 
   
   
   TODO:
-   (7): reset app to Work History after data displayed onSubmit   
+    (13) Create data display component
 
 
  */
@@ -163,7 +165,7 @@ const Form = () => {
 
     //reset all form state values
     setValues({
-      formTitle: "Form Title",
+      formTitle: "Employment Application",
       formDate: new Date().toDateString(),
       firstName: " ",
       lastName: " ",
@@ -394,15 +396,12 @@ const Form = () => {
               </form>
             </Card>
           )}
-          {show && (
+          {show && submittedData && (
             <Stack>
-              {submittedData?.formValues.formTitle}
-              <br />
-              {submittedData?.formValues.firstName}
-              <br />
-              {submittedData?.formValues.lastName}
-              <br />
-              {/* {submittedData.historyArray} */}
+              <DataDisplay
+                values={submittedData?.formValues}
+                dataArray={submittedData?.historyArray}
+              />
               <Button onClick={() => handleClose()}>Close</Button>
             </Stack>
           )}
