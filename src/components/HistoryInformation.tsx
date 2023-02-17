@@ -57,7 +57,7 @@ const HistoryInfo = ({
         <DeleteForeverIcon color={cardIndex > 0 ? "error" : "disabled"} />
       </IconButton>
       <CardContent>
-        <Stack spacing={1}>
+        <Stack spacing={2}>
           <TextField
             label="Company name:"
             value={companyName}
@@ -125,8 +125,19 @@ const HistoryInfo = ({
             }}
           />
           <FormControlLabel
-            control={<Checkbox color="success" value={contactApproval} />}
-            label="Contact Approval"
+            control={
+              <Checkbox
+                color="success"
+                checked={
+                  contactApproval.toLocaleLowerCase() === "true" ? true : false
+                }
+                onChange={(event) => {
+                  const checkedValue = event.target.checked ? "true" : "false";
+                  onChange(checkedValue, cardIndex, "contactApproval");
+                }}
+              />
+            }
+            label="Permission To Contact"
           />
         </Stack>
       </CardContent>

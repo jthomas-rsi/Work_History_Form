@@ -1,19 +1,17 @@
 import {
-  Box,
+  Avatar,
   Card,
   CardContent,
   CardHeader,
-  Checkbox,
   Divider,
-  FormControlLabel,
   Grid,
   IconButton,
   Paper,
   Stack,
-  TextField,
-  TextFieldProps,
+  Typography,
 } from "@mui/material";
 import { ValuesObject, WorkHistoryObject } from "../types/types";
+import Logo from "../data/genericCompanyLogo_1.jpeg";
 
 /**
     Component Function:
@@ -29,103 +27,158 @@ interface DataDisplayProps {
 const DataDisplay = ({ values, dataArray }: DataDisplayProps) => {
   return (
     <Card>
-      <CardHeader title="Thank You For Your Submission!" />
+      <CardHeader
+        title="Thank You For Your Submission!"
+        avatar={
+          <Avatar src={Logo} sx={{ width: 160, height: 80 }} variant="square" />
+        }
+      />
       <CardContent>
-        <Grid container border={1} padding={1} margin={1}>
-          <Grid item xs={12} sm={6} md={6}>{`Submission Date:`}</Grid>
-          <Grid item xs={12} sm={6} md={6}>{`${values.formDate}`}</Grid>
+        <Grid container border={1} padding={1}>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{`Submission Date:`}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{`${values.formDate}`}</Typography>
+          </Grid>
           <Divider />
-          <Grid item xs={12} sm={6} md={6}>{`Submission Type:`}</Grid>
           <Grid item xs={12} sm={6} md={6}>
-            {values.formTitle}
+            <Typography variant="overline">{`Submission Type:`}</Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>{`Applicant Name:`}</Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={6}
-          >{`${values.firstName} ${values.lastName}`}</Grid>
-          <Grid item xs={12} sm={6} md={6}>{`Gender:`}</Grid>
           <Grid item xs={12} sm={6} md={6}>
-            {values.gender}
+            <Typography variant="overline">{values.formTitle}</Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>{`Age:`}</Grid>
           <Grid item xs={12} sm={6} md={6}>
-            {values.age}
+            <Typography variant="overline">{`Applicant Name:`}</Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>{`Date Of Birth:`}</Grid>
-          <Grid item xs={12} sm={6} md={6}>{`${new Date(
-            values.dateOfBirth
-          ).toDateString()}`}</Grid>
-          <Grid item xs={12} sm={6} md={6}>{`Address:`}</Grid>
           <Grid item xs={12} sm={6} md={6}>
-            {values.address}
+            <Typography variant="overline">
+              {`${values.firstName} ${values.lastName}`}
+            </Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>{`City/State/Zip:`}</Grid>
           <Grid item xs={12} sm={6} md={6}>
-            {values.cityStateZip}
+            <Typography variant="overline">{`Gender:`}</Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>{`Country:`}</Grid>
           <Grid item xs={12} sm={6} md={6}>
-            {values.country}
+            <Typography variant="overline">{values.gender}</Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>{`Phone#:`}</Grid>
           <Grid item xs={12} sm={6} md={6}>
-            {values.phoneNumber}
+            <Typography variant="overline">{`Age:`}</Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>{`Email:`}</Grid>
           <Grid item xs={12} sm={6} md={6}>
-            {values.email}
+            <Typography variant="overline">{values.age}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{`Date Of Birth:`}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">
+              {`${new Date(values.dateOfBirth).toDateString()}`}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{`Address:`}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{values.address}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{`City/State/Zip:`}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{values.cityStateZip}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{`Country:`}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{values.country}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{`Phone#:`}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{values.phoneNumber}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{`Email:`}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{values.email}</Typography>
           </Grid>
         </Grid>
-        <Grid container border={1} margin={1} padding={1} spacing={2}>
+        <Typography variant="overline">{"Work History"}</Typography>
+        <Grid container border={1} padding={1}>
           {dataArray.map((workHistoryObj, index) => {
             return (
-              <Grid item key={index} xs={12} sm={3} md={3}>
-                <Paper elevation={2}>
+              <Grid item key={index} xs={12} sm={3} md={3} padding={1}>
+                <Paper elevation={2} variant={"outlined"}>
                   <Stack direction={"row"} spacing={2}>
-                    <div>{"Company Name:"}</div>
-                    <div>{workHistoryObj.companyName}</div>
+                    <Typography variant="overline">
+                      {"Company Name:"}
+                    </Typography>
+                    <Typography variant="overline">
+                      {workHistoryObj.companyName}
+                    </Typography>
                   </Stack>
                   <Divider />
                   <Stack direction={"row"} spacing={2}>
-                    <Grid>{"Position Title:"}</Grid>
-                    <Grid>{workHistoryObj.positionTitle}</Grid>
+                    <Typography variant="overline">
+                      {"Position Title:"}
+                    </Typography>
+                    <Typography variant="overline">
+                      {workHistoryObj.positionTitle}
+                    </Typography>
                   </Stack>
                   <Divider />
                   <Stack direction={"row"} spacing={2}>
-                    <Grid>{"Start Date:"}</Grid>
-                    <Grid>{`${new Date(
-                      workHistoryObj.startDate
-                    ).toDateString()}`}</Grid>
+                    <Typography variant="overline">{"Start Date:"}</Typography>
+                    <Typography variant="overline">
+                      {`${new Date(workHistoryObj.startDate).toDateString()}`}
+                    </Typography>
                   </Stack>
                   <Divider />
                   <Stack direction={"row"} spacing={2}>
-                    <Grid>{"End Date:"}</Grid>
-                    <Grid>{`${new Date(
-                      workHistoryObj.endDate
-                    ).toDateString()}`}</Grid>
+                    <Typography variant="overline">{"End Date:"}</Typography>
+                    <Typography variant="overline">
+                      {`${new Date(workHistoryObj.endDate).toDateString()}`}
+                    </Typography>
                   </Stack>
                   <Divider />
                   <Stack direction={"row"} spacing={2}>
-                    <Grid>{"Position Description"}</Grid>
-                    <Grid>{workHistoryObj.positionDescription}</Grid>
+                    <Typography variant="overline">
+                      {"Position Description"}
+                    </Typography>
+                    <Typography variant="overline">
+                      {workHistoryObj.positionDescription}
+                    </Typography>
                   </Stack>
                   <Divider />
                   <Stack direction={"row"} spacing={2}>
-                    <Grid>{`Supervisor's Name:`}</Grid>
-                    <Grid>{workHistoryObj.supervisorName}</Grid>
+                    <Typography variant="overline">
+                      {`Supervisor's Name:`}
+                    </Typography>
+                    <Typography variant="overline">
+                      {workHistoryObj.supervisorName}
+                    </Typography>
                   </Stack>
                   <Divider />
                   <Stack direction={"row"} spacing={2}>
-                    <Grid>{`Supervisor's Contact:`}</Grid>
-                    <Grid>{workHistoryObj.supervisorContact}</Grid>
+                    <Typography variant="overline">
+                      {`Supervisor's Contact:`}
+                    </Typography>
+                    <Typography variant="overline">
+                      {workHistoryObj.supervisorContact}
+                    </Typography>
                   </Stack>
                   <Divider />
                   <Stack direction={"row"} spacing={2}>
-                    <Grid>{`Permission to Contact:`}</Grid>
-                    <Grid>{workHistoryObj.contactApproval}</Grid>
+                    <Typography variant="overline">
+                      {`Permission to Contact:`}
+                    </Typography>
+                    <Typography variant="overline">
+                      {workHistoryObj.contactApproval}
+                    </Typography>
                   </Stack>
                   <Divider />
                 </Paper>

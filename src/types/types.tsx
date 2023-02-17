@@ -1,5 +1,5 @@
 export interface WorkHistoryObject {
-  [key: string]: string;
+  [key: string]: string | boolean;
   companyName: string;
   positionTitle: string;
   startDate: string;

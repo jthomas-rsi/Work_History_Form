@@ -1,5 +1,6 @@
 import HistoryInfo from "./HistoryInformation";
 import {
+  Avatar,
   Button,
   Card,
   CardActions,
@@ -19,6 +20,7 @@ import {
 import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
 import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 import { FormEvent, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -26,34 +28,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import formInputs from "../data/formInputs";
 import { ValuesObject, WorkHistoryObject, FormData } from "../types/types";
 import DataDisplay from "./DataDisplay";
-
-/**
-  TODO: Work History Form
-   
-  Done: 
-   (1): create a work history form 
-    ==> basic form with content outline created
-   (2): include basic information gathering section
-   ==> basic applicant information has been inputted into component and rendered to screen as placeholders
-   (9): create functions for each input type 
-   ===> created a single onchange function that is reusable for all input elements 
-   (3): include nested sections for specific information of form
-   (10): add functionality to add work item button, add new object to workHistory array
-   (11): add work entity onChange handler     
-   (8): create components to render specific application input elements for Applicant Information and Work History sections
-      ==> Applicant Information conditional render of input types
-      (4): collect all form information    
-      (5): submit form information 
-      (7): reset app to Work History after data displayed onSubmit   
-
-  INPROGRESS:
-  
-  
-  TODO:
-    (13) Create data display component
-
-
- */
+import Logo from "../data/genericCompanyLogo_1.jpeg";
 
 const Form = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -64,7 +39,7 @@ const Form = () => {
 
   //Single State object
   const [values, setValues] = useState<ValuesObject>({
-    formTitle: "Form Title",
+    formTitle: "Employment Application",
     formDate: new Date().toDateString(),
     firstName: "",
     lastName: "",
@@ -88,7 +63,7 @@ const Form = () => {
       positionDescription: "",
       supervisorName: "",
       supervisorContact: "",
-      contactApproval: "",
+      contactApproval: "false",
     },
   ]);
 
@@ -112,7 +87,7 @@ const Form = () => {
       positionDescription: "",
       supervisorName: "",
       supervisorContact: "",
-      contactApproval: "",
+      contactApproval: "false",
     };
     setWorkHistory((prevState) => {
       return [...prevState, newHistoryItem];
@@ -156,7 +131,7 @@ const Form = () => {
       formValues: values,
       historyArray: workHistory,
     };
-    // console.log("Event object", e.target[0].value);
+    console.log("Submitted Data", formData.formValues);
 
     // set form data to state
     setSubmittedData(formData);
@@ -189,16 +164,12 @@ const Form = () => {
         positionDescription: " ",
         supervisorName: " ",
         supervisorContact: " ",
-        contactApproval: " ",
+        contactApproval: "false",
       },
     ]);
 
-    // console.log("formdata", formData);
-
     setShow(true);
   };
-
-  // console.log("submitted data outside of function", submittedData);
 
   const handleClose = () => {
     setShow(false);
@@ -228,6 +199,13 @@ const Form = () => {
                 <CardHeader
                   title={values.formTitle}
                   subheader={values.formDate}
+                  avatar={
+                    <Avatar
+                      src={Logo}
+                      sx={{ width: 160, height: 80 }}
+                      variant="square"
+                    />
+                  }
                 />
                 <CardContent>
                   <Typography variant="overline">
@@ -239,6 +217,7 @@ const Form = () => {
                     mb={1}
                     alignItems="center"
                     justifyContent="center"
+                    padding={1}
                   >
                     {appInfo.map((input, index) => {
                       {
@@ -402,7 +381,15 @@ const Form = () => {
                 values={submittedData?.formValues}
                 dataArray={submittedData?.historyArray}
               />
-              <Button onClick={() => handleClose()}>Close</Button>
+              <IconButton
+                color="primary"
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                <Typography variant="button">{"Close"}</Typography>
+                <CloseIcon />
+              </IconButton>
             </Stack>
           )}
         </Box>
