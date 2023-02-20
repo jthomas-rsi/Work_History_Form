@@ -35,7 +35,7 @@ const Form = () => {
   const [submittedData, setSubmittedData] = useState<FormData>();
 
   // Sets form initial inputs to render
-  const [appInfo, setAppInfo] = useState<typeof formInputs>(formInputs);
+  const [appInfo, setAppInfo] = useState(formInputs);
 
   //Single State object
   const [values, setValues] = useState<ValuesObject>({
@@ -142,28 +142,28 @@ const Form = () => {
     setValues({
       formTitle: "Employment Application",
       formDate: new Date().toDateString(),
-      firstName: " ",
-      lastName: " ",
-      gender: " ",
-      age: " ",
-      dateOfBirth: " ",
-      address: " ",
-      cityStateZip: " ",
-      country: " ",
-      phoneNumber: " ",
-      email: " ",
+      firstName: "",
+      lastName: "",
+      gender: "",
+      age: "",
+      dateOfBirth: "",
+      address: "",
+      cityStateZip: "",
+      country: "",
+      phoneNumber: "",
+      email: "",
     });
 
     // reset workHistory array
     setWorkHistory([
       {
-        companyName: " ",
-        positionTitle: " ",
-        startDate: " ",
-        endDate: " ",
-        positionDescription: " ",
-        supervisorName: " ",
-        supervisorContact: " ",
+        companyName: "",
+        positionTitle: "",
+        startDate: "",
+        endDate: "",
+        positionDescription: "",
+        supervisorName: "",
+        supervisorContact: "",
         contactApproval: "false",
       },
     ]);

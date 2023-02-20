@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useState } from "react";
 
 /**
  Component Action: 
@@ -52,9 +53,9 @@ const HistoryInfo = ({
         onClick={() => {
           removeObject(cardIndex);
         }}
-        disabled={cardIndex > 0 ? false : true}
+        disabled={cardIndex === 0}
       >
-        <DeleteForeverIcon color={cardIndex > 0 ? "error" : "disabled"} />
+        <DeleteForeverIcon color={cardIndex === 0 ? "disabled" : "error"} />
       </IconButton>
       <CardContent>
         <Stack spacing={2}>
