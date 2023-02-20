@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import { ValuesObject, WorkHistoryObject } from "../types/types";
 import Logo from "../data/genericCompanyLogo_1.jpeg";
+import { displayText } from "../types/constants";
+import { useState } from "react";
 
 /**
     Component Function:
@@ -24,6 +26,27 @@ interface DataDisplayProps {
 }
 
 const DataDisplay = ({ values, dataArray }: DataDisplayProps) => {
+  const [applicantValues, setApplicantValues] = useState(
+    Object.entries(values)
+  );
+  //Crete an array of values object values
+  //map through array creating Grid Item pairs
+  /**
+   {
+    applicantValues.map((value, index)=>{
+      return(
+        <Grid key={index} item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{displayText.valuesObject[`${value}`]}</Typography>
+          </Grid>
+          <Grid key={index} item xs={12} sm={6} md={6}>
+            <Typography variant="overline">{`${values.formDate}`}</Typography>
+          </Grid>
+       )
+    })
+   } 
+   */
+  console.log(applicantValues);
+
   return (
     <Card>
       <CardHeader
@@ -34,84 +57,25 @@ const DataDisplay = ({ values, dataArray }: DataDisplayProps) => {
       />
       <CardContent>
         <Grid container border={1} padding={1}>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`Submission Date:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`${values.formDate}`}</Typography>
-          </Grid>
-          <Divider />
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`Submission Type:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{values.formTitle}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`Applicant Name:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">
-              {`${values.firstName} ${values.lastName}`}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`Gender:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{values.gender}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`Age:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{values.age}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`Date Of Birth:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">
-              {`${new Date(values.dateOfBirth).toDateString()}`}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`Address:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{values.address}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`City/State/Zip:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{values.cityStateZip}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`Country:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{values.country}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`Phone#:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{values.phoneNumber}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`Email:`}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{values.email}</Typography>
-          </Grid>
+          {applicantValues.map((value, index) => {
+            return (
+              <Grid key={index} item xs={12} sm={6} md={6}>
+                <Stack direction={"row"} spacing={2} textAlign={"center"}>
+                  <Typography variant="overline">
+                    {displayText.applicantValues[`${value[0]}`]}
+                  </Typography>
+                  <Typography variant="overline">{`${value[1]}`}</Typography>
+                </Stack>
+              </Grid>
+            );
+          })}
         </Grid>
         <Typography variant="overline">{"Work History"}</Typography>
         <Grid container border={1} padding={1}>
           {dataArray.map((workHistoryObj, index) => {
             return (
               <Grid item key={index} xs={12} sm={3} md={3} padding={1}>
-                <Paper elevation={2} variant={"outlined"}>
+                <Paper variant={"outlined"}>
                   <Stack direction={"row"} spacing={2}>
                     <Typography variant="overline">
                       {"Company Name:"}

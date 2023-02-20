@@ -30,3 +30,8 @@ export interface FormData {
   formValues: ValuesObject;
   historyArray: WorkHistoryObject[];
 }
+
+export type DisplayText = {
+  applicantValues: ValuesObject;
+  historyValues: WorkHistoryObject;
+};

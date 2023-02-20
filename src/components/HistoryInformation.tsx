@@ -133,8 +133,11 @@ const HistoryInfo = ({
                   contactApproval.toLocaleLowerCase() === "true" ? true : false
                 }
                 onChange={(event) => {
-                  const checkedValue = event.target.checked ? "true" : "false";
-                  onChange(checkedValue, cardIndex, "contactApproval");
+                  onChange(
+                    `${event.target.checked}`,
+                    cardIndex,
+                    "contactApproval"
+                  );
                 }}
               />
             }
