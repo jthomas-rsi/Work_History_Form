@@ -79,7 +79,10 @@ const HistoryInfo = ({
               label={"Start Date"}
               value={startDate}
               onChange={(event) => {
-                onChange(event, cardIndex, "startDate");
+                if (event) {
+                  const formattedDate = new Date(event).toDateString();
+                  onChange(formattedDate, cardIndex, "startDate");
+                }
               }}
               renderInput={(
                 params: JSX.IntrinsicAttributes & TextFieldProps
@@ -93,7 +96,10 @@ const HistoryInfo = ({
               label={"End Date"}
               value={endDate}
               onChange={(event) => {
-                onChange(event, cardIndex, "endDate");
+                if (event) {
+                  const formattedDate = new Date(event).toDateString();
+                  onChange(formattedDate, cardIndex, "endDate");
+                }
               }}
               renderInput={(
                 params: JSX.IntrinsicAttributes & TextFieldProps

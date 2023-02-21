@@ -3,9 +3,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Divider,
   Grid,
-  Paper,
   Stack,
   Typography,
 } from "@mui/material";
@@ -13,6 +11,7 @@ import { ValuesObject, WorkHistoryObject } from "../types/types";
 import Logo from "../data/genericCompanyLogo_1.jpeg";
 import { displayText } from "../types/constants";
 import { useState } from "react";
+import HistoryValues from "./historyValues";
 
 /**
     Component Function:
@@ -29,29 +28,6 @@ const DataDisplay = ({ values, dataArray }: DataDisplayProps) => {
   const [applicantValues, setApplicantValues] = useState(
     Object.entries(values)
   );
-
-  //map through workhistory objects in dataAray
-  // follow pattern used to map applicant info object Object.entries
-
-  // {dataArray.map((workHistoryObj, index) => {
-  //   return (
-  //     <Grid item key={index} xs={12} sm={3} md={3} padding={1}>
-  //       <Paper variant={"outlined"}>
-  //         <Stack direction={"row"} spacing={2}>
-  //           <Typography variant="overline">
-  //             {"Company Name:"}
-  //           </Typography>
-  //           <Typography variant="overline">
-  //             {workHistoryObj.companyName}
-  //           </Typography>
-  //         </Stack>
-  //         <Divider />
-  //         </Paper>
-  //     </Grid>
-  //     );
-  //   })
-  // }
-
   return (
     <Card>
       <CardHeader
@@ -79,78 +55,8 @@ const DataDisplay = ({ values, dataArray }: DataDisplayProps) => {
         <Grid container border={1} padding={1}>
           {dataArray.map((workHistoryObj, index) => {
             return (
-              <Grid item key={index} xs={12} sm={3} md={3} padding={1}>
-                {/* map through historyobject here put entries on paper in grid format*/}
-                <Paper variant={"outlined"}>
-                  <Stack direction={"row"} spacing={2}>
-                    <Typography variant="overline">
-                      {"Company Name:"}
-                    </Typography>
-                    <Typography variant="overline">
-                      {workHistoryObj.companyName}
-                    </Typography>
-                  </Stack>
-                  <Divider />
-                  <Stack direction={"row"} spacing={2}>
-                    <Typography variant="overline">
-                      {"Position Title:"}
-                    </Typography>
-                    <Typography variant="overline">
-                      {workHistoryObj.positionTitle}
-                    </Typography>
-                  </Stack>
-                  <Divider />
-                  <Stack direction={"row"} spacing={2}>
-                    <Typography variant="overline">{"Start Date:"}</Typography>
-                    <Typography variant="overline">
-                      {`${new Date(workHistoryObj.startDate).toDateString()}`}
-                    </Typography>
-                  </Stack>
-                  <Divider />
-                  <Stack direction={"row"} spacing={2}>
-                    <Typography variant="overline">{"End Date:"}</Typography>
-                    <Typography variant="overline">
-                      {`${new Date(workHistoryObj.endDate).toDateString()}`}
-                    </Typography>
-                  </Stack>
-                  <Divider />
-                  <Stack direction={"row"} spacing={2}>
-                    <Typography variant="overline">
-                      {"Position Description"}
-                    </Typography>
-                    <Typography variant="overline">
-                      {workHistoryObj.positionDescription}
-                    </Typography>
-                  </Stack>
-                  <Divider />
-                  <Stack direction={"row"} spacing={2}>
-                    <Typography variant="overline">
-                      {`Supervisor's Name:`}
-                    </Typography>
-                    <Typography variant="overline">
-                      {workHistoryObj.supervisorName}
-                    </Typography>
-                  </Stack>
-                  <Divider />
-                  <Stack direction={"row"} spacing={2}>
-                    <Typography variant="overline">
-                      {`Supervisor's Contact:`}
-                    </Typography>
-                    <Typography variant="overline">
-                      {workHistoryObj.supervisorContact}
-                    </Typography>
-                  </Stack>
-                  <Divider />
-                  <Stack direction={"row"} spacing={2}>
-                    <Typography variant="overline">
-                      {`Permission to Contact:`}
-                    </Typography>
-                    <Typography variant="overline">
-                      {workHistoryObj.contactApproval}
-                    </Typography>
-                  </Stack>
-                  <Divider />
-                </Paper>
+              <Grid item key={index}>
+                <HistoryValues {...workHistoryObj} />
               </Grid>
             );
           })}
