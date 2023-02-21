@@ -29,23 +29,28 @@ const DataDisplay = ({ values, dataArray }: DataDisplayProps) => {
   const [applicantValues, setApplicantValues] = useState(
     Object.entries(values)
   );
-  //Crete an array of values object values
-  //map through array creating Grid Item pairs
-  /**
-   {
-    applicantValues.map((value, index)=>{
-      return(
-        <Grid key={index} item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{displayText.valuesObject[`${value}`]}</Typography>
-          </Grid>
-          <Grid key={index} item xs={12} sm={6} md={6}>
-            <Typography variant="overline">{`${values.formDate}`}</Typography>
-          </Grid>
-       )
-    })
-   } 
-   */
-  console.log(applicantValues);
+
+  //map through workhistory objects in dataAray
+  // follow pattern used to map applicant info object Object.entries
+
+  // {dataArray.map((workHistoryObj, index) => {
+  //   return (
+  //     <Grid item key={index} xs={12} sm={3} md={3} padding={1}>
+  //       <Paper variant={"outlined"}>
+  //         <Stack direction={"row"} spacing={2}>
+  //           <Typography variant="overline">
+  //             {"Company Name:"}
+  //           </Typography>
+  //           <Typography variant="overline">
+  //             {workHistoryObj.companyName}
+  //           </Typography>
+  //         </Stack>
+  //         <Divider />
+  //         </Paper>
+  //     </Grid>
+  //     );
+  //   })
+  // }
 
   return (
     <Card>
@@ -75,6 +80,7 @@ const DataDisplay = ({ values, dataArray }: DataDisplayProps) => {
           {dataArray.map((workHistoryObj, index) => {
             return (
               <Grid item key={index} xs={12} sm={3} md={3} padding={1}>
+                {/* map through historyobject here put entries on paper in grid format*/}
                 <Paper variant={"outlined"}>
                   <Stack direction={"row"} spacing={2}>
                     <Typography variant="overline">

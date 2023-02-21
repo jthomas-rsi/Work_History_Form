@@ -63,11 +63,12 @@ const Form = () => {
       positionDescription: "",
       supervisorName: "",
       supervisorContact: "",
-      contactApproval: "false",
+      contactApproval: "false", // turn this value into a bool
     },
   ]);
 
   // onChange function to capture user input and update state object
+  // update function to take boolean value for contact approval
   const handleChange = (eventValue: string, varTitle: string) => {
     setValues((prevState) => {
       return {

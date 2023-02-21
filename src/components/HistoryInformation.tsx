@@ -47,6 +47,7 @@ const HistoryInfo = ({
   removeObject,
   onChange,
 }: HistoryInfoProps) => {
+  const [checkedValue, setCheckedValue] = useState(); // TODO: use this state value incheckbox
   return (
     <Card sx={{ backgroundColor: "tan" }}>
       <IconButton
